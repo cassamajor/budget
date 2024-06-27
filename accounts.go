@@ -69,7 +69,7 @@ type NetWorth struct {
 
 // Total returns the total Net Worth.
 func (s NetWorth) Total() Balance {
-	return (s.LiquidAssets + s.NonLiquidAssets) - (s.StudentLoans + s.ConsumerDebt + s.Mortgage)
+	return (s.LiquidAssets + s.NonLiquidAssets) + (s.StudentLoans + s.ConsumerDebt + s.Mortgage)
 }
 
 // CalculateNetWorth calculates the Net Worth of the Accounts.
