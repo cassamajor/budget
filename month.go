@@ -37,6 +37,13 @@ func (m *Month) UnmarshalJSON(data []byte) error {
 	m.Income = NewRat(format.Data.Month.Income)
 	m.Expenses = NewRat(-format.Data.Month.Activity)
 
+	// Calculate payments made to the Credit Card Payments category as an expense
+	for _, category := range format.Data.Month.Categories {
+		if category.CategoryGroupName == "Credit Card Payments" {
+			m.Expenses = m.Expenses + NewRat(category.Activity)
+		}
+	}
+
 	return nil
 }
 
