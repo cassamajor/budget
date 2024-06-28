@@ -58,40 +58,84 @@ func (a *Accounts) Report() {
 	}
 }
 
-// NetWorth contains the calculated balances for each Account type.
+// NetWorth contains the combined balances Assets and Liabilities.
 type NetWorth struct {
-	LiquidAssets    Balance
-	NonLiquidAssets Balance
-	StudentLoans    Balance
-	ConsumerDebt    Balance
-	Mortgage        Balance
+	Assets      Assets
+	Liabilities Liabilities
 }
 
-// Total returns the total Net Worth.
-func (s NetWorth) Total() Balance {
-	return (s.LiquidAssets + s.NonLiquidAssets) + (s.StudentLoans + s.ConsumerDebt + s.Mortgage)
+// Total calculates the total Net Worth.
+func (n NetWorth) Total() Balance {
+	return n.Assets.Total() + n.Liabilities.Total()
 }
 
-// CalculateNetWorth calculates the Net Worth of the Accounts.
-func (a *Accounts) CalculateNetWorth() NetWorth {
-	var total NetWorth
+// Assets contains the calculated balances for each Account type.
+type Assets struct {
+	Cash     Balance
+	Checking Balance
+	Savings  Balance
+	Other    Balance
+}
+
+// Total calculates the balance across all Assets.
+func (a Assets) Total() Balance {
+	return a.Cash + a.Checking + a.Savings + a.Other
+}
+
+// Liabilities contains balances for Accounts that have an outstanding balance
+type Liabilities struct {
+	AutoLoans     Balance
+	CreditCards   Balance
+	StudentLoans  Balance
+	Mortgages     Balance
+	LinesOfCredit Balance
+	PersonalLoans Balance
+	MedicalDebt   Balance
+	Other         Balance
+}
+
+// Total calculates the balance across all Liabilities.
+func (l Liabilities) Total() Balance {
+	return l.AutoLoans + l.CreditCards + l.StudentLoans + l.Mortgages + l.LinesOfCredit + l.PersonalLoans + l.MedicalDebt + l.Other
+}
+
+// NetWorth calculates the balance for all Account types.
+func (a *Accounts) NetWorth() NetWorth {
+	var nw NetWorth
 
 	for _, account := range *a {
 		switch account.Type {
-		case "otherAsset": // IRA/HSA/401k
-			total.NonLiquidAssets += account.Balance
+		// Assets
+		case "cash":
+			nw.Assets.Cash += account.Balance
+		case "checking":
+			nw.Assets.Checking += account.Balance
+		case "savings":
+			nw.Assets.Savings += account.Balance
+		case "otherAsset": // IRA/HSA/401k/Brokerage
+			nw.Assets.Other += account.Balance
+
+		// Liabilities
+		case "autoLoan":
+			nw.Liabilities.AutoLoans += account.Balance
+		case "creditCard":
+			nw.Liabilities.CreditCards += account.Balance
 		case "studentLoan":
-			total.StudentLoans += account.Balance
-		case "autoLoan", "creditCard":
-			total.ConsumerDebt += account.Balance
+			nw.Liabilities.StudentLoans += account.Balance
 		case "mortgage":
-			total.Mortgage += account.Balance
-		case "savings", "checking":
-			total.LiquidAssets += account.Balance
+			nw.Liabilities.Mortgages += account.Balance
+		case "lineOfCredit":
+			nw.Liabilities.LinesOfCredit += account.Balance
+		case "personalLoan":
+			nw.Liabilities.PersonalLoans += account.Balance
+		case "medicalDebt":
+			nw.Liabilities.MedicalDebt += account.Balance
+		case "otherLiability", "otherDebt":
+			nw.Liabilities.Other += account.Balance
 		}
 	}
 
-	return total
+	return nw
 }
 
 // AccountData https://api.ynab.com/v1/#/Accounts/getAccounts
