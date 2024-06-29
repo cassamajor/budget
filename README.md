@@ -1,6 +1,6 @@
 # Busy People Budget
 
-This app queries the You Need A Budget (YNAB) API to quickly generate a snapshot of current finances.
+This project queries the You Need A Budget (YNAB) API to quickly generate a snapshot of current finances.
 
 ## Install
 ```shell
@@ -65,4 +65,56 @@ We have $170,918.49 remaining on our mortgage.
 We have $33,067.28 in student loans.
 We have $18,315.82 in auto loans.
 ```
+</details>
+
+<details>
+<summary>Tutorial: Brief Introduction to Features and Functionality</summary>
+
+`WithMonth` and `WithToken` are functional options that can be passed into the `NewBudget` function.
+
+If no options are passed, the current month is used, and the token is read from the environment variable `YNAB_PAT`.
+
+```go
+month := budget.WithMonth("2024-07-01")
+token := budget.WithToken("personal-access-token")
+
+b := budget.NewBudget(month, token)
+```
+
+---
+The `Budget` method returns a `Summary`.
+Included in the `Summary` are two structs: `Month` and `Accounts`.
+
+Account balances are stored in the `Accounts` struct, and will always reflect current amounts; it is not affected by the `WithMonth` option.
+
+Income and expense totals are stored in the `Month` struct.
+Both structs contain built-in reports that print to the console.
+
+```go
+summary := b.Budget()
+
+summary.Month.Report()
+summary.Accounts.Report()
+```
+
+---
+The `NetWorth` method is attached to the `Accounts` struct.
+It calculates the sum of all assets and liabilities and returns a `NetWorth` struct.
+The `NetWorth` struct has a `Total` method that returns the total net worth.
+```go
+nw := summary.Accounts.NetWorth()
+nw.Total()
+```
+
+---
+`AccountMap` is a global variable that provides the ability to query accounts by their name.
+```go
+c := budget.AccountMap["Checking"]
+
+fmt.Println(c.Balance)
+```
+
+---
+The `Balance` type represents the balance of an account.
+It has a `String` method that formats the account balance with a dollar sign and commas.
 </details>
