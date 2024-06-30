@@ -20,11 +20,11 @@ func (b Balance) Float64() float64 {
 
 // String returns the Balance value as a string with a dollar sign and comma.
 func (b Balance) String() string {
-	return AddComma(b.Float64())
+	return FormatCurrency(b.Float64())
 }
 
-// AddComma adds a comma to a float64 value and prepends a dollar sign
-func AddComma(n float64) string {
+// FormatCurrency adds a comma to a float64 value and prepends a dollar sign.
+func FormatCurrency(n float64) string {
 	p := message.NewPrinter(language.English)
 	value := p.Sprintf("%.2f", math.Abs(n))
 

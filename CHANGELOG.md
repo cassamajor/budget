@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `NetWorth` is now comprised of `Assets` and `Liabilities`.
+- `AddComma` is renamed to `FormatCurrency`.
 
 ## [0.1.1] - 2024-06-29
 
