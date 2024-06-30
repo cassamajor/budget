@@ -78,7 +78,7 @@ If no options are passed, the current month is used, and the token is read from 
 month := budget.WithMonth("2024-07-01")
 token := budget.WithToken("personal-access-token")
 
-b := budget.NewBudget(month, token)
+b, err := budget.NewBudget(month, token)
 ```
 
 ---

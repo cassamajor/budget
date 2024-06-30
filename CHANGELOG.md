@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2024-06-29
+## [0.2.1] - 2024-06-30
+
+### Changed
+
+- A code snippet in the tutorial was updated to include the correct amount of return values.  
+
+## [0.2.0] - 2024-06-30
 
 ### Added
 
@@ -33,7 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ability to query the YNAB API for budget data.
 
-[unreleased]: https://github.com/cassamajor/budget/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/cassamajor/budget/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/cassamajor/budget/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/cassamajor/budget/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/cassamajor/budget/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/cassamajor/budget/releases/tag/v0.1.0
