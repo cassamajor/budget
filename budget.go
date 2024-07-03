@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 )
 
 // Summary contains financial data for each account and the specified month.
@@ -67,12 +68,17 @@ func WithToken(t string) option {
 	}
 }
 
-// WithMonth sets the month for the Budget. Expects a string in the format `2006-01-02`, or `current`.
+// WithMonth sets the month for the Budget. Expects a string in the format `2024-12-01`, or `current`.
 // If this is not set, NewBudget will use the current month.
 func WithMonth(t string) option {
 	return func(b *Budget) error {
-		if t == "" {
-			return errors.New("month must be `current` or match the `2006-01-02` format")
+		pattern := `^\d{4}-\d{2}-01$|^current$`
+		re, err := regexp.Compile(pattern)
+		if err != nil {
+			return fmt.Errorf("error compiling regex: %w", err)
+		}
+		if !re.MatchString(t) {
+			return errors.New("month must be `current` or match the `YYYY-MM-01` format")
 		}
 		b.Month = t
 		return nil
@@ -94,7 +100,7 @@ func NewBudget(opts ...option) (*Budget, error) {
 	}
 
 	if b.APIToken == "" {
-		return nil, errors.New("API token is required")
+		return nil, errors.New("API token is required. Set the `YNAB_PAT` environment variable or specify the `WithToken` option")
 	}
 
 	return b, nil
