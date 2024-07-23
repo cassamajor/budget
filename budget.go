@@ -10,8 +10,8 @@ import (
 
 // Summary contains financial data for each account and the specified month.
 type Summary struct {
-	*Accounts
-	*Month
+	Accounts *Accounts
+	Month    *Month
 }
 
 // Budget contains the API token and month for the budget.
