@@ -7,6 +7,7 @@ import (
 
 // Month contains the overall financial picture for a specific month.
 type Month struct {
+	Date          string
 	ReadyToAssign Balance
 	Assigned      Balance
 	Underfunded   Balance
@@ -36,6 +37,7 @@ func (m *Month) UnmarshalJSON(data []byte) error {
 	m.Underfunded = NewRat(underfunded)
 	m.Income = NewRat(format.Data.Month.Income)
 	m.Expenses = NewRat(-format.Data.Month.Activity)
+	m.Date = format.Data.Month.Month
 
 	// Calculate payments made to the Credit Card Payments category as an expense
 	for _, category := range format.Data.Month.Categories {

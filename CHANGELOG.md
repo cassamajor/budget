@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- The `Month` struct now has the `Date` field.
+
 ### Fixed
 - The `Summary` struct no longer has anonymous fields.
 
