@@ -10,7 +10,8 @@ import (
 	"net/http"
 )
 
-// Balance is a custom type for a float64 value.
+// Balance represents the balance of an account.
+// The String method formats the account balance with a dollar sign and comma(s).
 type Balance float64
 
 // Float64 returns the Balance value as a float64.
@@ -18,7 +19,7 @@ func (b Balance) Float64() float64 {
 	return float64(b)
 }
 
-// String returns the Balance value as a string with a dollar sign and comma.
+// String returns the value of Balance with a dollar sign and comma(s).
 func (b Balance) String() string {
 	return FormatCurrency(b.Float64())
 }

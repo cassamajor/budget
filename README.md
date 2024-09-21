@@ -1,6 +1,8 @@
 # Busy People Budget
 
-This project queries the You Need A Budget (YNAB) API to quickly generate a snapshot of current finances.
+The Busy People Budget is designed to provide personalized insights into financial health with only a few lines of code.
+The tool includes net worth calculation, built-in reports, and offers the flexibility to create a custom financial summary.
+The README contains example code and a tutorial; let me know your thoughts through GitHub Issues and Pull Requests!
 
 ## Install
 ```shell
@@ -113,8 +115,4 @@ c := budget.AccountMap["Checking"]
 
 fmt.Println(c.Balance)
 ```
-
----
-The `Balance` type represents the balance of an account.
-It has a `String` method that formats the account balance with a dollar sign and commas.
 </details>

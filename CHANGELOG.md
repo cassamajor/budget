@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1]
+
+### Changed
+- Update the method documentation for `Balance` and `Balance.String`.
+- Update the project description in the README.
+
+### Fixed
+- Correct the link to the [0.3.0] release.
+
 ## [0.3.0]
 
 ### Changed
@@ -23,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated the error message to include corrective action when the `YNAB_PAT` environment variable is not set, and the `WithToken` option is not provided.
+- Update the error message to include corrective action when the `YNAB_PAT` environment variable is not set, and the `WithToken` option is not provided.
 
 ## [0.2.1] - 2024-06-30
 
@@ -58,7 +67,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to query the YNAB API for budget data.
 
 [unreleased]: https://github.com/cassamajor/budget/compare/v0.2.1...HEAD
-[0.2.2]: https://github.com/cassamajor/budget/compare/v0.2.2...v0.3.0
+[0.3.1]: https://github.com/cassamajor/budget/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/cassamajor/budget/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/cassamajor/budget/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/cassamajor/budget/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/cassamajor/budget/compare/v0.1.1...v0.2.0
