@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"time"
 )
 
 // Budget contains financial data for each Account and the specified Month.
@@ -142,4 +143,51 @@ func AccessDataFiles[T Month | Accounts](fileLocation string) *T {
 	}
 
 	return AccessData[T](jsonData)
+}
+
+func (s *Session) Rollover() (Balance, error) {
+	t := s.Date()
+
+	// Subtract one month to get the prior month. Also set the date to the first day of the month, as expected by the YNAB API.
+	date := time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location())
+
+	// Re-format the date as a YYYY-MM-01 string
+	f := date.Format("2006-01-02")
+
+	// Get the accounts and month data
+	month := WithMonth(f)
+	session, err := NewSession(month)
+
+	if err != nil {
+		token := WithToken(s.APIToken)
+		session, err = NewSession(month, token)
+
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	m := session.Summary().Month
+	rollover := m.Income - m.Expenses
+
+	if rollover != 0 {
+		return rollover, nil
+	}
+
+	return 0, nil
+}
+
+// Date converts a string into a time.Time
+func (s *Session) Date() time.Time {
+	var t time.Time
+
+	switch s.Month {
+	case "current":
+		t = time.Now().Local()
+	default:
+		// Parse the month into a time.Time object
+		t, _ = time.Parse("2006-01-02", s.Month)
+	}
+
+	return t
 }

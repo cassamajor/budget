@@ -9,8 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.0]
 
+### Added
+- `Rollover` and `Date` methods to `Session`.
+
 ### Changed
 - Improve code readability by renaming the `Budget` struct to `Session`, the `Summary` struct to `Budget`, the `Budget` method to `Summary`.
+
+### Fixed
 - Update method documentation to reference `Account` and `Month`.
 
 ## [0.3.1]
