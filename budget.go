@@ -170,11 +170,7 @@ func (s *Session) Rollover() (Balance, error) {
 	m := session.Summary().Month
 	rollover := m.Income - m.Expenses
 
-	if rollover != 0 {
-		return rollover, nil
-	}
-
-	return 0, nil
+	return rollover, nil
 }
 
 // Date converts a string into a time.Time
