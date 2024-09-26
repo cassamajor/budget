@@ -29,19 +29,19 @@ func TestNewRat(t *testing.T) {
 //
 //	tests := []struct {
 //		name string
-//		args budget.Budget
+//		args budget.Session
 //		want budget.Summary
 //	}{
 //		{
 //			name: "No Token is set as an environment variable",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				Month: "2024-06-01",
 //			},
 //			want: errors.New("API token is required"),
 //		},
 //		{
 //			name: "WithToken is passed with an empty string",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				Month:    "2024-06-01",
 //				APIToken: "",
 //			},
@@ -49,7 +49,7 @@ func TestNewRat(t *testing.T) {
 //		},
 //		{
 //			name: "Token is set as an environment variable",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				Month:    "2024-06-01",
 //				APIToken: "",
 //			},
@@ -57,21 +57,21 @@ func TestNewRat(t *testing.T) {
 //		},
 //		{
 //			name: "WithMonth is passed with an empty string",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				Month: "",
 //			},
 //			want: errors.New("token cannot be empty"),
 //		},
 //		{
 //			name: "No Month Set",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				APIToken: "gibberish",
 //			},
 //			want: budget.Summary{},
 //		},
 //		{
 //			name: "Month is set with invalid value",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				APIToken: "gibberish",
 //				Month:    "01-02-2006",
 //			},
@@ -79,7 +79,7 @@ func TestNewRat(t *testing.T) {
 //		},
 //		{
 //			name: "Token and Month Set",
-//			args: budget.Budget{
+//			args: budget.Session{
 //				APIToken: "gibberish",
 //				Month:    "2024-06-01",
 //			},
@@ -87,7 +87,7 @@ func TestNewRat(t *testing.T) {
 //		},
 //		{
 //			name: "Token and Month Unset",
-//			args: budget.Budget{},
+//			args: budget.Session{},
 //			want: budget.Summary{},
 //		},
 //	}
@@ -97,13 +97,13 @@ func TestNewRat(t *testing.T) {
 //
 //			token := budget.WithToken(tt.args.APIToken)
 //			m := budget.WithMonth(tt.args.Month)
-//			b, err := budget.NewBudget(token, m)
+//			b, err := budget.NewSession(token, m)
 //
 //			if err != nil {
 //				t.Fatal(err)
 //			}
 //
-//			if got := b.Budget(); !reflect.DeepEqual(got, tt.want) {
+//			if got := b.Session(); !reflect.DeepEqual(got, tt.want) {
 //				t.Errorf("got =\n %v, want =\n %v", got, tt.want)
 //			}
 //		})

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0]
+
+### Changed
+- Improve code readability by renaming the `Budget` struct to `Session`, the `Summary` struct to `Budget`, the `Budget` method to `Summary`.
+- Update method documentation to reference `Account` and `Month`.
+
 ## [0.3.1]
 
 ### Changed
@@ -67,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to query the YNAB API for budget data.
 
 [unreleased]: https://github.com/cassamajor/budget/compare/v0.2.1...HEAD
+[0.4.0]: https://github.com/cassamajor/budget/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/cassamajor/budget/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/cassamajor/budget/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/cassamajor/budget/compare/v0.2.1...v0.2.2

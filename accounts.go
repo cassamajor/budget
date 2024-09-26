@@ -50,7 +50,7 @@ func (a *Accounts) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Report prints the account balance for each account.
+// Report prints the account balance for each Account.
 func (a *Accounts) Report() {
 	// Print the account names and balances
 	for _, account := range *a {
@@ -64,7 +64,7 @@ type NetWorth struct {
 	Liabilities Liabilities
 }
 
-// Total calculates the total Net Worth.
+// Total calculates the total NetWorth.
 func (n NetWorth) Total() Balance {
 	return n.Assets.Total() + n.Liabilities.Total()
 }

@@ -6,15 +6,15 @@ import (
 )
 
 func main() {
-	b, err := budget.NewBudget()
+	s, err := budget.NewSession()
 	if err != nil {
-		fmt.Println("Error creating budget:", err)
+		fmt.Println("Error initializing session:", err)
 		return
 	}
 
 	// Get the accounts and month data
-	summary := b.Budget()
-	Report(summary.Month, summary.Accounts)
+	b := s.Summary()
+	Report(b.Month, b.Accounts)
 }
 
 // Report prints a summary of the budget for the month.

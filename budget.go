@@ -8,30 +8,30 @@ import (
 	"regexp"
 )
 
-// Summary contains financial data for each account and the specified month.
-type Summary struct {
+// Budget contains financial data for each Account and the specified Month.
+type Budget struct {
 	Accounts *Accounts
 	Month    *Month
 }
 
-// Budget contains the API token and month for the budget.
-type Budget struct {
+// Session contains the API token and month for the budget.
+type Session struct {
 	APIToken string
 	Month    string
 }
 
-// Budget retrieves the account and month data for the budget.
-func (b *Budget) Budget() Summary {
-	a, _ := b.GetAccounts()
-	m, _ := b.GetMonth()
+// Summary retrieves the Account and Month data for the budget.
+func (s *Session) Summary() Budget {
+	a, _ := s.GetAccounts()
+	m, _ := s.GetMonth()
 
-	return Summary{Accounts: AccessData[Accounts](a), Month: AccessData[Month](m)}
+	return Budget{Accounts: AccessData[Accounts](a), Month: AccessData[Month](m)}
 }
 
-// GetAccounts retrieves account data from the YNAB API.
-func (b *Budget) GetAccounts() ([]byte, error) {
+// GetAccounts retrieves Account data from the YNAB API.
+func (s *Session) GetAccounts() ([]byte, error) {
 	url := "https://api.youneedabudget.com/v1/budgets/last-used/accounts"
-	a, err := GetURL(b.APIToken, url)
+	a, err := GetURL(s.APIToken, url)
 	if err != nil {
 		fmt.Println("Error getting account data:", err)
 		return nil, err
@@ -40,11 +40,11 @@ func (b *Budget) GetAccounts() ([]byte, error) {
 	return a, nil
 }
 
-// GetMonth retrieves the month data from the YNAB API.
-func (b *Budget) GetMonth() ([]byte, error) {
+// GetMonth retrieves the Month data from the YNAB API.
+func (s *Session) GetMonth() ([]byte, error) {
 	// Gather month-specific budget data
-	url := fmt.Sprintf("https://api.youneedabudget.com/v1/budgets/last-used/months/%s", b.Month)
-	m, err := GetURL(b.APIToken, url)
+	url := fmt.Sprintf("https://api.youneedabudget.com/v1/budgets/last-used/months/%s", s.Month)
+	m, err := GetURL(s.APIToken, url)
 	if err != nil {
 		fmt.Println("Error getting month data:", err)
 		return nil, err
@@ -53,25 +53,25 @@ func (b *Budget) GetMonth() ([]byte, error) {
 	return m, nil
 }
 
-// option is a function that sets a value on the Budget.
-type option func(*Budget) error
+// option is a function that sets a value on the Session.
+type option func(*Session) error
 
-// WithToken sets the API token for the Budget.
-// If this is not set, NewBudget will attempt to use the `YNAB_PAT` environment variable.
+// WithToken sets the API token for the Session.
+// If this is not set, NewSession will attempt to use the `YNAB_PAT` environment variable.
 func WithToken(t string) option {
-	return func(b *Budget) error {
+	return func(s *Session) error {
 		if t == "" {
 			return errors.New("token cannot be empty")
 		}
-		b.APIToken = t
+		s.APIToken = t
 		return nil
 	}
 }
 
-// WithMonth sets the month for the Budget. Expects a string in the format `2024-12-01`, or `current`.
-// If this is not set, NewBudget will use the current month.
+// WithMonth sets the month for the Session. Expects a string in the format `2024-12-01`, or `current`.
+// If this is not set, NewSession will use the current month.
 func WithMonth(t string) option {
-	return func(b *Budget) error {
+	return func(s *Session) error {
 		pattern := `^\d{4}-\d{2}-01$|^current$`
 		re, err := regexp.Compile(pattern)
 		if err != nil {
@@ -80,43 +80,43 @@ func WithMonth(t string) option {
 		if !re.MatchString(t) {
 			return errors.New("month must be `current` or match the `YYYY-MM-01` format")
 		}
-		b.Month = t
+		s.Month = t
 		return nil
 	}
 }
 
-// NewBudget creates a new Budget with the provided options.
-func NewBudget(opts ...option) (*Budget, error) {
-	b := &Budget{
+// NewSession creates a new Session with the provided options.
+func NewSession(opts ...option) (*Session, error) {
+	s := &Session{
 		Month:    "current",
 		APIToken: os.Getenv("YNAB_PAT"),
 	}
 
 	for _, opt := range opts {
-		err := opt(b)
+		err := opt(s)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	if b.APIToken == "" {
+	if s.APIToken == "" {
 		return nil, errors.New("API token is required. Set the `YNAB_PAT` environment variable or specify the `WithToken` option")
 	}
 
-	return b, nil
+	return s, nil
 }
 
-// DefaultBudget creates a new Budget with the default options and prints a summary for the Month.
-func DefaultBudget() int {
-	b, err := NewBudget()
+// DefaultSession creates a new Session with the default options and prints a summary for the Month.
+func DefaultSession() int {
+	s, err := NewSession()
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
 
-	summary := b.Budget()
-	summary.Month.Report()
+	b := s.Summary()
+	b.Month.Report()
 	return 0
 }
 
